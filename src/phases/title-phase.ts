@@ -189,7 +189,7 @@ export class TitlePhase extends Phase {
         keepOpen: true,
       },
       {
-        label: "👑 Admin",
+        label: "Admin",
         handler: () => {
           if (hasAdminToken()) {
             ui.setOverlayMode(UiMode.ARENA_ADMIN_MENU);

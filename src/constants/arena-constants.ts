@@ -21,4 +21,4 @@ export const ARENA_LOGO_URL = arenaLogoUrl;
  * The game renders at a base resolution of 640x360, so this is roughly
  * half of the screen width.
  */
-export const ARENA_LOGO_DISPLAY_WIDTH = 300;
+export const ARENA_LOGO_DISPLAY_WIDTH = 200;

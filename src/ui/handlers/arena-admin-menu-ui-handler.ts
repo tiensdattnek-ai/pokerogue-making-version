@@ -47,7 +47,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
 
     const options: OptionSelectItem[] = [
       {
-        label: "🚀 GOD MODE (unlock everything)",
+        label: "GOD MODE (unlock everything)",
         handler: () => {
           applyGodMode()
             .then(() => {
@@ -64,7 +64,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         keepOpen: true,
       },
       {
-        label: "🔓 Unlock every starter & form",
+        label: "Unlock every starter & form",
         handler: () => {
           const count = unlockAllStarters();
           globalScene.gameData.saveSystem();
@@ -75,7 +75,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         keepOpen: true,
       },
       {
-        label: "💎 Max candy for every starter",
+        label: "Max candy for every starter",
         handler: () => {
           const count = grantMaxCandy();
           globalScene.gameData.saveSystem();
@@ -86,7 +86,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         keepOpen: true,
       },
       {
-        label: "🎟 Max vouchers",
+        label: "Max vouchers",
         handler: () => {
           grantMaxVouchers();
           globalScene.gameData.saveSystem();
@@ -97,7 +97,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         keepOpen: true,
       },
       {
-        label: `🥚 One legendary egg for each of the ${legendaries.length} legendaries`,
+        label: `One legendary egg for each of the ${legendaries.length} legendaries`,
         handler: () => {
           const count = grantRareEggs(true);
           globalScene.gameData.saveSystem();
@@ -108,7 +108,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         keepOpen: true,
       },
       {
-        label: "🏆 Unlock every game mode & achievement",
+        label: "Unlock every game mode & achievement",
         handler: () => {
           unlockAllGameModes();
           const achievements = unlockAllAchievements();
@@ -120,7 +120,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         keepOpen: true,
       },
       {
-        label: "💰 Unlimited money (this session)",
+        label: "Unlimited money (this session)",
         handler: () => {
           grantMaxMoney();
           this.notify("Money set to the maximum!");
@@ -130,14 +130,14 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         keepOpen: true,
       },
       {
-        label: `⚡ Set starting party (${startingParty.length}/6)`,
+        label: `Set starting party (${startingParty.length}/6)`,
         handler: () => {
           globalScene.ui.setMode(UiMode.ARENA_ADMIN_SPECIES);
           return true;
         },
       },
       {
-        label: "🧹 Clear starting party",
+        label: "Clear starting party",
         handler: () => {
           clearAdminStartingParty();
           this.notify("Starting party cleared.");
@@ -147,7 +147,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         keepOpen: true,
       },
       {
-        label: "🚪 Log out",
+        label: "Log out",
         handler: () => {
           adminLogout();
           globalScene.ui.setMode(UiMode.TITLE);
