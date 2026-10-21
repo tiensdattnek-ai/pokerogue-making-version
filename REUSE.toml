@@ -11,6 +11,7 @@ path = [
     # source and test code. Can be overridden on a per-file basis inside the file itself (which will supercede this)
     "src/**/*.ts",
     "test/**/*.ts",
+    "api/**/*.ts",
     "src/**/*.json",
     "test/**/*.json",
     "src/**/*.jsonc",
@@ -66,4 +67,11 @@ SPDX-FileCopyrightText = "NONE"
 [[annotations]]
 path = "favicon.ico"                        # Created by Gonstar (Paid Commission)
 SPDX-FileCopyrightText = "2024 Gonstar"
+SPDX-License-Identifier = "CC-BY-NC-SA-4.0"
+
+[[annotations]]
+path = [
+    "src/assets/arena-logo.png"
+]
+SPDX-FileCopyrightText = "2026 Arena Asxel Studio Games"
 SPDX-License-Identifier = "CC-BY-NC-SA-4.0"

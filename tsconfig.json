@@ -58,6 +58,8 @@
     "paths": {
       "#abilities/*": ["./src/data/abilities/*.ts"],
       "#ai/*": ["./src/ai/*.ts"],
+      "#admin/*": ["./src/admin/*.ts"],
+      "#assets/*": ["./src/assets/*"],
       "#api/*": ["./src/api/*.ts"],
       "#audio/*": ["./src/audio/*.ts"],
       "#biomes/*": ["./src/data/balance/biomes/*.ts"],

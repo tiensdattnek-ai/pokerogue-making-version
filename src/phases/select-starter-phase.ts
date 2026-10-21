@@ -1,3 +1,5 @@
+import { getAdminStartingParty } from "#admin/admin-privileges";
+import { hasAdminToken } from "#admin/admin-session";
 import { audioManager } from "#app/global-audio-manager";
 import { globalScene } from "#app/global-scene";
 import { speciesDataRegistry } from "#app/global-species-data-registry";
@@ -6,6 +8,7 @@ import { Phase } from "#app/phase";
 import { SpeciesFormChangeMoveLearnedTrigger } from "#data/form-change-triggers";
 import { Gender } from "#data/gender";
 import { ChallengeType } from "#enums/challenge-type";
+import { Nature } from "#enums/nature";
 import { UiMode } from "#enums/ui-mode";
 import { overrideHeldItems, overrideModifiers } from "#modifiers/modifier";
 import type { Starter } from "#types/save-data";
@@ -106,6 +109,30 @@ export class SelectStarterPhase extends Phase {
       }
       loadPokemonAssets.push(starterPokemon.loadAssets());
     });
+
+    // The admin account can designate a starting party (up to six Pokémon,
+    // typically legendaries) which replaces the normally chosen starters.
+    const adminParty = hasAdminToken() ? getAdminStartingParty() : [];
+    if (adminParty.length > 0) {
+      party.length = 0;
+      for (const entry of adminParty) {
+        const species = speciesDataRegistry.getSpecies(entry.speciesId);
+        const adminPokemon = globalScene.addPlayerPokemon(
+          species,
+          100,
+          0,
+          0,
+          Gender.MALE,
+          entry.shiny,
+          0,
+          [31, 31, 31, 31, 31, 31],
+          Nature.HARDY,
+        );
+        adminPokemon.setVisible(false);
+        party.push(adminPokemon);
+        loadPokemonAssets.push(adminPokemon.loadAssets());
+      }
+    }
     overrideModifiers();
     overrideHeldItems(party[0]);
     Promise.all(loadPokemonAssets).then(() => {

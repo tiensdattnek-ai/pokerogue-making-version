@@ -1,3 +1,4 @@
+import { hasAdminToken } from "#admin/admin-session";
 import { pokerogueApi } from "#api/api";
 import { loggedInUser } from "#app/account";
 import { GameMode, getGameMode } from "#app/game-mode";
@@ -183,6 +184,27 @@ export class TitlePhase extends Phase {
         label: i18next.t("menu:menu"),
         handler: () => {
           ui.setOverlayMode(UiMode.MENU);
+          return true;
+        },
+        keepOpen: true,
+      },
+      {
+        label: "👑 Admin",
+        handler: () => {
+          if (hasAdminToken()) {
+            ui.setOverlayMode(UiMode.ARENA_ADMIN_MENU);
+          } else {
+            ui.setOverlayMode(UiMode.ARENA_ADMIN_LOGIN, {
+              buttonActions: [
+                () => {
+                  ui.revertMode();
+                },
+                () => {
+                  ui.revertMode();
+                },
+              ],
+            });
+          }
           return true;
         },
         keepOpen: true,

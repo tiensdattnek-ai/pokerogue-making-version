@@ -7,6 +7,7 @@ import { globalScene } from "#app/global-scene";
 import { settings } from "#app/global-settings-manager";
 import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { bypassLogin, isBeta, isDev } from "#constants/app-constants";
+import { ARENA_LOGO_DISPLAY_WIDTH, ARENA_LOGO_KEY } from "#constants/arena-constants";
 import { getSplashMessages } from "#data/splash-messages";
 import { SpeciesId } from "#enums/species-id";
 import { TextStyle } from "#enums/text-style";
@@ -74,6 +75,7 @@ export class TitleUiHandler extends OptionSelectUiHandler {
     const logo = globalScene.add
       .image(width / 2, 8, this.getLogo()) // formatting
       .setOrigin(0.5, 0);
+    logo.setScale(ARENA_LOGO_DISPLAY_WIDTH / logo.width);
 
     if (timedEventManager.isEventActive()) {
       this.eventDisplay = new TimedEventDisplay(0, 0, timedEventManager.activeEvent());
@@ -255,6 +257,10 @@ export class TitleUiHandler extends OptionSelectUiHandler {
     // Invert spawn chances on april fools
     const aprilFools = timedEventManager.isAprilFoolsActive();
     const logoKey = timedEventManager.getLogoKey();
+    // Arena Asxel Studio Games branding, unless a timed event supplies its own logo.
+    if (logoKey === "logo") {
+      return ARENA_LOGO_KEY;
+    }
     return aprilFools === !!randInt(FAKE_TITLE_LOGO_CHANCE) ? "logo_fake" : logoKey;
   }
 

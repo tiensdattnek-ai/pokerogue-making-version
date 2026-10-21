@@ -2,7 +2,7 @@ import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
 import { activeOverrides } from "#app/overrides";
 import { SceneBase } from "#app/scene-base";
-import { isMobile } from "#app/touch-controls";
+import { ARENA_LOGO_KEY, ARENA_LOGO_URL } from "#constants/arena-constants";
 import { BiomeId } from "#enums/biome-id";
 import { GachaType } from "#enums/gacha-types";
 import { getBiomeHasProps } from "#field/arena";
@@ -13,6 +13,9 @@ import { hasAllLocalizedSprites, localPing } from "#utils/common";
 import { enumValueToKey, getEnumValues } from "#utils/enums";
 import i18next from "i18next";
 import type { GameObjects } from "phaser";
+
+/** The background color of the Arena Asxel Studio Games loading screen. */
+const ARENA_LOADER_BG = 0x070912;
 
 export class LoadingScene extends SceneBase {
   public static readonly KEY = "loading";
@@ -181,6 +184,10 @@ export class LoadingScene extends SceneBase {
       .loadAtlas("tera_sparkle", "effects")
       .loadAtlas("pb", "")
       .loadAtlas("items", "");
+
+    // The Arena Asxel Studio Games logo is bundled with the application
+    // instead of living in the (upstream) assets repository.
+    this.load.image(ARENA_LOGO_KEY, ARENA_LOGO_URL);
 
     this.load
       .bitmapFont("item-count", "fonts/item-count.png", "fonts/item-count.xml")
@@ -372,45 +379,59 @@ export class LoadingScene extends SceneBase {
   }
 
   private loadLoadingScreen() {
-    const mobile = isMobile();
-
-    const bg = this.add //
-      .image(0, 0, "")
-      .setOrigin(0)
-      .setScale(6)
-      .setVisible(false);
-
-    const graphics = this.add //
-      .graphics()
-      .lineStyle(4, 0xff00ff, 1)
-      .setDepth(10);
-
-    const progressBar = this.add.graphics();
-
-    const progressBox = this.add //
-      .graphics()
-      .lineStyle(5, 0xff00ff, 1.0)
-      .fillStyle(0x222222, 0.8);
-
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
     const midWidth = width / 2;
-    const midHeight = height / 2;
 
-    const logo = this.add //
-      .image(midWidth, 240, "")
-      .setVisible(false)
-      .setOrigin(0.5, 0.5)
-      .setScale(4);
+    // Branded background for Arena Asxel Studio Games.
+    const bg = this.add.rectangle(0, 0, width, height, ARENA_LOADER_BG).setOrigin(0);
+
+    // Angular accent shapes in the brand colors.
+    const accents = this.add.graphics();
+    accents.fillStyle(0x00e5ff, 0.07);
+    accents.fillPoints(
+      [
+        new Phaser.Geom.Point(0, height * 0.68),
+        new Phaser.Geom.Point(width * 0.5, height),
+        new Phaser.Geom.Point(0, height),
+      ],
+      true,
+    );
+    accents.fillStyle(0xff2fb3, 0.07);
+    accents.fillPoints(
+      [
+        new Phaser.Geom.Point(width, height * 0.12),
+        new Phaser.Geom.Point(width, height * 0.52),
+        new Phaser.Geom.Point(width * 0.52, 0),
+      ],
+      true,
+    );
+
+    // Studio logo.
+    const logo = this.add.image(midWidth, height * 0.34, ARENA_LOGO_KEY).setOrigin(0.5);
+    logo.setScale(Math.min(1, (width * 0.82) / logo.width));
+
+    // Progress bar.
+    const barWidth = Math.min(width * 0.7, 640);
+    const barHeight = 18;
+    const barY = height * 0.62;
+
+    const progressBox = this.add
+      .graphics()
+      .lineStyle(3, 0x2b3358, 1)
+      .fillStyle(0x0e1428, 0.95)
+      .fillRoundedRect(midWidth - barWidth / 2, barY - barHeight / 2, barWidth, barHeight, 9);
+
+    const progressBar = this.add.graphics();
 
     const percentText = this.make
       .text({
         x: midWidth,
-        y: midHeight - 24,
+        y: barY + 44,
         text: "0%",
         style: {
-          font: "72px emerald",
-          color: "#ffffff",
+          font: "48px emerald",
+          color: "#e8ecff",
         },
       })
       .setOrigin(0.5, 0.5);
@@ -418,11 +439,11 @@ export class LoadingScene extends SceneBase {
     const assetText = this.make
       .text({
         x: midWidth,
-        y: midHeight + 48,
+        y: barY + 96,
         text: "",
         style: {
-          font: "48px emerald",
-          color: "#ffffff",
+          font: "32px emerald",
+          color: "#7f8bb5",
         },
       })
       .setOrigin(0.5, 0.5);
@@ -430,10 +451,10 @@ export class LoadingScene extends SceneBase {
     const disclaimerText = this.make
       .text({
         x: midWidth,
-        y: assetText.y + 152,
+        y: height - 96,
         text: i18next.t("menu:disclaimer"),
         style: {
-          font: "72px emerald",
+          font: "48px emerald",
           color: "#DA3838",
         },
       })
@@ -442,20 +463,20 @@ export class LoadingScene extends SceneBase {
     const disclaimerDescriptionText = this.make
       .text({
         x: midWidth,
-        y: disclaimerText.y + 120,
+        y: height - 40,
         text: i18next.t("menu:disclaimerDescription"),
         style: {
-          font: "48px emerald",
+          font: "28px emerald",
           color: "#ffffff",
           align: "center",
         },
       })
       .setOrigin(0.5, 0.5);
 
-    const loadingGraphics: (GameObjects.Image | GameObjects.Graphics | GameObjects.Text)[] = [];
+    const loadingGraphics: (GameObjects.Image | GameObjects.Graphics | GameObjects.Text | GameObjects.Rectangle)[] = [];
     loadingGraphics.push(
       bg,
-      graphics,
+      accents,
       progressBar,
       progressBox,
       logo,
@@ -465,69 +486,44 @@ export class LoadingScene extends SceneBase {
       disclaimerDescriptionText,
     );
 
-    if (!mobile) {
-      loadingGraphics.forEach(g => {
-        g.setVisible(false);
-      });
-    }
-
-    const intro = this.add
-      .video(0, 0)
-      .setOrigin(0)
-      .setScale(3)
-      .once(Phaser.GameObjects.Events.VIDEO_COMPLETE, (video: Phaser.GameObjects.Video) => {
-        this.tweens.add({
-          targets: intro,
-          duration: 500,
-          alpha: 0,
-          ease: "Sine.easeIn",
-          onComplete: () => video.destroy(),
-        });
-        for (const g of loadingGraphics) {
-          g.setVisible(true);
-        }
-      });
+    // Fade the branded splash in instead of playing the stock intro video.
+    loadingGraphics.forEach(g => g.setAlpha(0));
+    this.tweens.add({
+      targets: loadingGraphics,
+      alpha: 1,
+      duration: 500,
+      ease: "Sine.easeInOut",
+    });
+    this.tweens.add({
+      targets: logo,
+      y: logo.y - 8,
+      duration: 1600,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+    });
 
     this.load
-      .once(this.LOAD_EVENTS.START, () => {
-        // videos do not need to be preloaded
-        intro.loadURL("images/intro_dark.mp4", true);
-        if (mobile) {
-          intro.video?.setAttribute("webkit-playsinline", "webkit-playsinline");
-          intro.video?.setAttribute("playsinline", "playsinline");
-        }
-        intro.play();
-      })
       .on(this.LOAD_EVENTS.PROGRESS, (progress: number) => {
         percentText.setText(`${Math.floor(progress * 100)}%`);
-        // need to reset fill style due to `clear` restting it
+        const filled = Math.max(6, (barWidth - 6) * progress);
         progressBar
           .clear()
-          .fillStyle(0xffffff, 0.8)
-          .fillRect(midWidth - 320, 360, 640 * progress, 64);
+          .fillStyle(0x00e5ff, 0.95)
+          .fillRoundedRect(midWidth - barWidth / 2 + 3, barY - barHeight / 2 + 3, filled, barHeight - 6, 6)
+          .fillStyle(0xff2fb3, 1)
+          .fillRect(midWidth - barWidth / 2 + 3 + filled - 4, barY - barHeight / 2 + 3, 4, barHeight - 6);
       })
       .on(this.LOAD_EVENTS.FILE_COMPLETE, (key: string) => {
         assetText.setText(i18next.t("menu:loadingAsset", { assetName: key }));
-        switch (key) {
-          case "loading_bg":
-            bg.setTexture("loading_bg");
-            if (mobile) {
-              bg.setVisible(true);
-            }
-            break;
-          case "logo":
-            logo.setTexture("logo");
-            if (mobile) {
-              logo.setVisible(true);
-            }
-            break;
+        if (key === ARENA_LOGO_KEY) {
+          logo.setTexture(ARENA_LOGO_KEY);
         }
       })
       .on(this.LOAD_EVENTS.COMPLETE, () => {
         for (const g of loadingGraphics) {
           g.destroy();
         }
-        intro.destroy();
       });
   }
 

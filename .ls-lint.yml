@@ -33,6 +33,7 @@ ignore:
    - assets
    - locales
    - dist
+   - .vercel
    - .devcontainer
    - "LICENSES"
    - .idea

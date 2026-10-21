@@ -47,3 +47,8 @@ coverage
 # Script outputs
 *.csv
 game-data-output/*
+.vercel
+.env*
+
+# Vercel
+.vercel

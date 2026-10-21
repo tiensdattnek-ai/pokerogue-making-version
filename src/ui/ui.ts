@@ -31,6 +31,9 @@ import { GameStatsUiHandler } from "#ui/game-stats-ui-handler";
 import { GamepadBindingUiHandler } from "#ui/gamepad-binding-ui-handler";
 import { SettingsGamepadUiHandler } from "#ui/gamepad-settings-ui-handler";
 import { GeneralSettingsUiHandler } from "#ui/general-settings-ui-handler";
+import { ArenaAdminLoginUiHandler } from "#ui/handlers/arena-admin-login-ui-handler";
+import { ArenaAdminMenuUiHandler } from "#ui/handlers/arena-admin-menu-ui-handler";
+import { ArenaAdminSpeciesUiHandler } from "#ui/handlers/arena-admin-species-ui-handler";
 import { KeyboardBindingUiHandler } from "#ui/keyboard-binding-ui-handler";
 import { SettingsKeyboardUiHandler } from "#ui/keyboard-settings-ui-handler";
 import { LoadingModalUiHandler } from "#ui/loading-modal-ui-handler";
@@ -108,6 +111,9 @@ const noTransitionModes = [
   UiMode.RUN_INFO,
   UiMode.CHANGE_PASSWORD_FORM,
   UiMode.ALERT_MODAL,
+  UiMode.ARENA_ADMIN_LOGIN,
+  UiMode.ARENA_ADMIN_SPECIES,
+  UiMode.ARENA_ADMIN_MENU,
 ];
 
 // biome-ignore lint/style/useNamingConvention: a unique case (only 2 letters)
@@ -183,6 +189,9 @@ export class UI extends Phaser.GameObjects.Container {
       new MysteryEncounterUiHandler(),
       new ChangePasswordFormUiHandler(),
       new AlertModalUiHandler(),
+      new ArenaAdminLoginUiHandler(),
+      new ArenaAdminSpeciesUiHandler(),
+      new ArenaAdminMenuUiHandler(),
     ];
   }
 
