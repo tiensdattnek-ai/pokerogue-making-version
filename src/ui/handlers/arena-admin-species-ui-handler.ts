@@ -84,7 +84,7 @@ export class ArenaAdminSpeciesUiHandler extends FormModalUiHandler {
 
       globalScene.ui.setMode(UiMode.ARENA_ADMIN_MENU);
       globalScene.ui.showText(`${species.name} added to your starting party!`, null, null, null, true);
-      globalScene.ui.playSuccess();
+      globalScene.ui.playSelect();
     };
 
     return true;

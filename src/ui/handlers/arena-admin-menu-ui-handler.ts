@@ -52,7 +52,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
           applyGodMode()
             .then(() => {
               this.notify("God mode activated! All starters, candies, vouchers and game modes unlocked.");
-              globalScene.ui.playSuccess();
+              globalScene.ui.playSelect();
             })
             .catch(error => {
               console.error(error);
@@ -69,7 +69,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
           const count = unlockAllStarters();
           globalScene.gameData.saveSystem();
           this.notify(`Unlocked ${count} species (all forms, genders, variants and shinies).`);
-          globalScene.ui.playSuccess();
+          globalScene.ui.playSelect();
           return true;
         },
         keepOpen: true,
@@ -80,7 +80,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
           const count = grantMaxCandy();
           globalScene.gameData.saveSystem();
           this.notify(`Gave max candy to ${count} starter species.`);
-          globalScene.ui.playSuccess();
+          globalScene.ui.playSelect();
           return true;
         },
         keepOpen: true,
@@ -91,7 +91,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
           grantMaxVouchers();
           globalScene.gameData.saveSystem();
           this.notify("All vouchers topped up!");
-          globalScene.ui.playSuccess();
+          globalScene.ui.playSelect();
           return true;
         },
         keepOpen: true,
@@ -102,7 +102,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
           const count = grantRareEggs(true);
           globalScene.gameData.saveSystem();
           this.notify(`Added ${count} legendary eggs (shiny) to your egg list.`);
-          globalScene.ui.playSuccess();
+          globalScene.ui.playSelect();
           return true;
         },
         keepOpen: true,
@@ -114,7 +114,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
           const achievements = unlockAllAchievements();
           globalScene.gameData.saveSystem();
           this.notify(`Unlocked every game mode and ${achievements} achievements.`);
-          globalScene.ui.playSuccess();
+          globalScene.ui.playSelect();
           return true;
         },
         keepOpen: true,
@@ -124,7 +124,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         handler: () => {
           grantMaxMoney();
           this.notify("Money set to the maximum!");
-          globalScene.ui.playSuccess();
+          globalScene.ui.playSelect();
           return true;
         },
         keepOpen: true,
@@ -141,7 +141,7 @@ export class ArenaAdminMenuUiHandler extends OptionSelectUiHandler {
         handler: () => {
           clearAdminStartingParty();
           this.notify("Starting party cleared.");
-          globalScene.ui.playSuccess();
+          globalScene.ui.playSelect();
           return true;
         },
         keepOpen: true,

@@ -85,7 +85,7 @@ export class ArenaAdminLoginUiHandler extends FormModalUiHandler {
           }
 
           globalScene.ui.setMode(UiMode.ARENA_ADMIN_MENU);
-          globalScene.ui.playSuccess();
+          globalScene.ui.playSelect();
         })
         .catch(error => {
           console.error(error);
